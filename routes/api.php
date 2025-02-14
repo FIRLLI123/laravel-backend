@@ -23,3 +23,4 @@ Route::get('/users', [UserController::class, 'index']);
 Route::post('/users', [UserController::class, 'store']);
 Route::get('/users/search', [UserController::class, 'searchByName']);
 Route::put('/users/{id}', [UserController::class, 'update']);
+//tes
