@@ -16,7 +16,8 @@ class UserController extends Controller
     public function index()
     {
         //
-        return response()->json(User::all());
+        $user = User::select('id','name','email')->get();
+        return response()->json($user);
     }
 
     /**
