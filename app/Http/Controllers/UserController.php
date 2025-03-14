@@ -45,6 +45,32 @@ class UserController extends Controller
         //
     }
 
+
+    public function storeMultiple(Request $request)
+{
+    $request->validate([
+        '*.name' => 'required|string|max:255',
+        '*.email' => 'required|email|unique:users',
+        '*.password' => 'required|min:6',
+    ]);
+
+    $users = [];
+
+    foreach ($request->all() as $userData) {
+        $users[] = [
+            'name' => $userData['name'],
+            'email' => $userData['email'],
+            'password' => Hash::make($userData['password']),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ];
+    }
+
+    User::insert($users); // Insert multiple users sekaligus
+
+    return response()->json(['message' => 'Users added successfully'], 201);
+}
+
     /**
      * Display the specified resource.
      *

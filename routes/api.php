@@ -24,4 +24,7 @@ Route::post('/users', [UserController::class, 'store']);
 Route::get('/users/search', [UserController::class, 'searchByName']);
 Route::put('/users/{id}', [UserController::class, 'update']);
 Route::delete('/users/{id}', [UserController::class, 'destroy']);
+
+//multi insert
+Route::post('/users/multiple', [UserController::class, 'storeMultiple']);
 //tes
