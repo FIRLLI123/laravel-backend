@@ -39,7 +39,8 @@ class UserController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make($request->password), // Hash password sebelum disimpan
+            'password' => Hash::make($request->password),
+            'created_by' => auth()->id(), // User yang sedang login
         ]);
     
         return response()->json($user, 201);
@@ -108,12 +109,17 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-        $user = User::findOrFail($id); // Cari user berdasarkan ID
-        $user->update($request->all()); // Update data user dengan request
-        return response()->json($user);
-        //
-    }
+{
+    $user = User::findOrFail($id);
+    $user->update([
+        'name' => $request->name,
+        'email' => $request->email,
+        'updated_by' => auth()->id(), // User yang mengupdate
+    ]);
+
+    return response()->json($user);
+}
+
 
     /**
      * Remove the specified resource from storage.
