@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Foundation\Console\StorageLinkCommand;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -126,4 +127,29 @@ class UserController extends Controller
         return response()->json(null, 204); // Response kosong dengan status 204 (No Content)
         //
     }
+
+
+
+    public function login(Request $request)
+{
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required'
+    ]);
+
+    $user = User::where('email', $request->email)->first();
+
+    if (!$user || !Hash::check($request->password, $user->password)) {
+        return response()->json(['message' => 'Email atau Password salah!'], 401);
+    }
+
+    return response()->json([
+        'message' => 'Login berhasil!',
+        'user' => [
+            'id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email
+        ]
+    ], 200);
+}
 }
