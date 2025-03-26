@@ -63,14 +63,16 @@ class UserController extends Controller
             'name' => $userData['name'],
             'email' => $userData['email'],
             'password' => Hash::make($userData['password']),
-            'created_at' => now(),
+            'created_at' => now(), // Pastikan waktu tersimpan
             'updated_at' => now(),
+            'created_by' => auth()->id(), // Tambahkan siapa yang membuat
+            'updated_by' => auth()->id()
         ];
     }
 
-    User::insert($users); // Insert multiple users sekaligus
+    User::insert($users); // Gunakan insert untuk menyimpan banyak data sekaligus
 
-    return response()->json(['message' => 'Users added successfully'], 201);
+    return response()->json(['message' => 'Users berhasil ditambahkan!'], 201);
 }
 
     /**
