@@ -146,8 +146,11 @@ class UserController extends Controller
     $user = User::where('email', $request->email)->first();
 
     if (!$user || !Hash::check($request->password, $user->password)) {
-        return response()->json(['message' => 'Email atau Password salah!'], 401);
+        return response()->json(['message' => 'Email atau password salah!'], 401);
     }
+
+    // Buat token untuk user
+    $token = $user->createToken('authToken')->plainTextToken;
 
     return response()->json([
         'message' => 'Login berhasil!',
@@ -155,7 +158,9 @@ class UserController extends Controller
             'id' => $user->id,
             'name' => $user->name,
             'email' => $user->email
-        ]
-    ], 200);
+        ],
+        'token' => $token // Tambahkan token ke respons
+    ]);
 }
+
 }

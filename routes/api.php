@@ -15,10 +15,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Route Login (Tanpa Middleware)
+Route::post('/login', [UserController::class, 'login'])->name('login');
 
 
-Route::post('/login', [UserController::class, 'login']);
-
+// Route yang Butuh Autentikasi (Hanya bisa diakses jika user sudah login)
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/users', [UserController::class, 'index']);
     Route::post('/users', [UserController::class, 'store']);
@@ -26,7 +27,3 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/users/{id}', [UserController::class, 'destroy']);
     Route::post('/users/multiple', [UserController::class, 'storeMultiple']);
 });
-
-//multi insert
-
-//tes
