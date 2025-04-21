@@ -40,4 +40,4 @@ class User extends Authenticatable
 }
 
 //tes dev_2
-//lagi
+// update
